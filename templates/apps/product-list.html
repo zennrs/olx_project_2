@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }} - OLX Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f2f4f5; font-family: 'Segoe UI', sans-serif; }
+        .filter-select { @apply bg-white border border-transparent border-b-gray-300 p-3 w-full outline-none focus:border-cyan-500 transition text-sm; }
+    </style>
+</head>
+<body>
+
+    <header class="bg-[#002f34] text-white p-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-black italic">OLX</a>
+            <button class="bg-white text-[#002f34] px-4 py-2 rounded font-bold">Подать объявление</button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6">
+
+        <section class="bg-white p-6 rounded shadow-sm mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-[#002f34]">Фильтры</h2>
+                <button class="border-2 border-[#002f34] px-4 py-1 rounded font-bold text-sm hover:bg-gray-50">
+                    <i class="fa-regular fa-heart mr-2"></i> Добавить в избранное
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Категория</label>
+                    <select class="filter-select"><option>{{ category.name }}</option></select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Подкатегория</label>
+                    <select class="filter-select">
+                        <option>Все объявления</option>
+                        {% for sub in category.children.all %}
+                        <option>{{ sub.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Цена</label>
+                    <div class="flex gap-1">
+                        <input type="text" placeholder="От:" class="filter-select border-b-gray-300">
+                        <input type="text" placeholder="До:" class="filter-select border-b-gray-300">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Состояние</label>
+                    <select class="filter-select"><option>Все объявления</option></select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Год выпуска</label>
+                    <div class="flex gap-1">
+                        <select class="filter-select"><option>От:</option></select>
+                        <select class="filter-select"><option>До:</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-between border-b">
+                <div class="flex gap-8">
+                    <button class="pb-3 border-b-4 border-[#002f34] font-bold text-sm">Все объявления</button>
+                    <button class="pb-3 text-gray-500 text-sm hover:text-black">Бизнес</button>
+                    <button class="pb-3 text-gray-500 text-sm hover:text-black">Частное</button>
+                </div>
+                <button class="text-sm text-gray-500 underline mb-2">Сбросить фильтры</button>
+            </div>
+        </section>
+
+        <div class="flex flex-wrap gap-4 mb-8 text-sm text-[#002f34]">
+            {% for brand in manufacturers %}
+            <a href="#" class="font-semibold hover:underline">{{ brand.name }} <span class="text-gray-400 font-normal">1 234</span></a>
+            {% endfor %}
+            <button class="font-bold border-b border-dotted border-black">Показать все <i class="fa-solid fa-chevron-down text-[10px]"></i></button>
+        </div>
+
+        <h3 class="text-xl font-bold text-[#002f34] mb-4">Мы нашли более 1 000 объявлений</h3>
+
+        <div class="space-y-4">
+            {% for product in products %}
+            <div class="bg-white rounded overflow-hidden shadow-sm flex flex-col md:flex-row relative group hover:shadow-md transition">
+                <div class="w-full md:w-72 h-48 relative flex-shrink-0">
+                    <img src="{{ product.image.url }}" class="w-full h-full object-cover">
+                    <span class="absolute bottom-2 left-2 bg-[#23e5db] text-[#002f34] text-[10px] font-bold px-1 uppercase">ТОП</span>
+                </div>
+
+                <div class="p-4 flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h4 class="text-lg text-[#002f34] leading-tight group-hover:text-cyan-600 cursor-pointer">
+                                {{ product.title }}
+                            </h4>
+                            <i class="fa-regular fa-heart text-xl cursor-pointer hover:text-red-500"></i>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Ташкент, Юнусабадский район - Сегодня в 12:45</p>
+                    </div>
+
+                    <div class="flex justify-between items-end mt-4">
+                        <div class="text-xs text-gray-500">
+                            <i class="fa-regular fa-calendar mr-1"></i> 2025 - 0 км
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-bold text-[#002f34]">{{ product.price }} сум</p>
+                            <p class="text-xs text-gray-400">Договорная</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </main>
+
+    <footer class="bg-white mt-12 py-12 border-t text-center text-xs text-gray-400">
+        <p>© 2026 OLX Clone Performance</p>
+    </footer>
+
+</body>
+</html>
