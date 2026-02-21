@@ -1,0 +1,62 @@
+[
+{
+    "model": "apps.category",
+    "pk": 1,
+    "fields": {
+        "slug": "elektronika",
+        "image": "category/2026/02/17/python-1.jpg",
+        "name": "Elektronika",
+        "banner": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 4,
+        "tree_id": 1,
+        "level": 0
+    }
+},
+{
+    "model": "apps.category",
+    "pk": 2,
+    "fields": {
+        "slug": "mashina",
+        "image": "category/2026/02/16/R7tezFny36n2zajZiKpaPqTZ8LcnA4Kw04jNeejg2RaKdOa15uKTTlcXnUW2.jpg",
+        "name": "Mashina",
+        "banner": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 4,
+        "tree_id": 1,
+        "level": 0
+    }
+},
+{
+    "model": "apps.category",
+    "pk": 3,
+    "fields": {
+        "slug": "audi",
+        "image": "category/2026/02/16/rNX5M2vGVyPeVO1t4pFMi4iEfsCmoWxWzyI0fsQGa5EscC67Yg3BgtFSCx4M.jpg",
+        "name": "Audi",
+        "banner": "",
+        "parent": 2,
+        "lft": 1,
+        "rght": 4,
+        "tree_id": 1,
+        "level": 0
+    }
+},
+{
+    "model": "apps.category",
+    "pk": 4,
+    "fields": {
+        "slug": "smarfon",
+        "image": "",
+        "name": "smarfon",
+        "banner": "",
+        "parent": 1,
+        "lft": 2,
+        "rght": 3,
+        "tree_id": 1,
+        "level": 1
+    }
+}
+]
