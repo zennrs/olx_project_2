@@ -1,1 +1,1 @@
-from apps.models.products import Product,Category
+from apps.models.announcements import Announcement,Category

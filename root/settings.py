@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'apps.apps.AppsConfig',
 
     'mptt',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

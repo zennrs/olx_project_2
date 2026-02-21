@@ -41,22 +41,49 @@
           },
           {% endfor %}
         ];
+        const PRODUCTS = [
+            {% for ann in announcements %}
+            { id: {{ ann.id }},
+            title: '{{ann.name}}',
+             price: '{{ ann.price }}',
+              location: 'Ташкент, Чиланзарский район',
+              date: 'Сегодня в 20:11',
+               img: '{{ ann.images.first.url }}' },
+            {% endfor %}
+        ];
 
         const Header = () => html`
             <header className="bg-[#002f34] text-white">
                 <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <div className="text-3xl font-black tracking-tighter cursor-pointer">OLX</div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-8">
+                        <div className="text-3xl font-black tracking-tighter cursor-pointer">OLX</div>
+                    </div>
+
+                    <div className="flex items-center gap-4 md:gap-6">
+                        <div className="flex items-center text-sm font-bold border-r border-gray-600 pr-4 h-5">
+                            <span className="cursor-pointer hover:underline">O'Z</span>
+                            <span className="mx-2 text-gray-500">|</span>
+                            <span className="cursor-pointer text-gray-400 hover:text-white">Рус</span>
+                        </div>
+
                         <div className="flex items-center gap-2 cursor-pointer hover:text-cyan-400">
                             <i className="fa-regular fa-comment text-xl"></i>
-                            <span className="hidden md:inline font-semibold text-sm">Чат</span>
+                            <span className="hidden lg:inline font-semibold text-sm">Чат</span>
                         </div>
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 cursor-pointer font-semibold text-sm hover:text-cyan-400">
-                                <i className="fa-regular fa-user text-xl"></i>
-                                <span className="hidden md:inline">Профиль</span>
-                            </div>
+
+                        <div className="flex items-center cursor-pointer hover:text-cyan-400">
+                            <i className="fa-regular fa-heart text-xl"></i>
                         </div>
+
+                        <div className="flex items-center cursor-pointer hover:text-cyan-400">
+                            <i className="fa-regular fa-bell text-xl"></i>
+                        </div>
+
+                        <div className="flex items-center gap-2 cursor-pointer font-semibold text-sm hover:text-cyan-400">
+                            <i className="fa-regular fa-user text-xl"></i>
+                            <span className="hidden md:inline">Профиль</span>
+                        </div>
+
                         <button className="bg-white text-[#002f34] px-4 py-2 rounded font-bold hover:bg-gray-100 transition text-sm">
                             Подать объявление
                         </button>
@@ -80,6 +107,45 @@
                 </button>
             </div>
         `;
+
+        const ProductCard = ({ item }) => {
+            if (item.isJob) {
+                return html`
+                    <div className="bg-white rounded shadow-sm p-4 flex flex-col justify-between border border-transparent hover:shadow-md transition cursor-pointer relative">
+                        <i className="fa-regular fa-heart absolute top-4 right-4 text-xl text-[#002f34]"></i>
+                        <div>
+                            <h3 className="font-bold text-[#002f34] text-sm mb-4 pr-6 leading-tight">${item.title}</h3>
+                            <div className="space-y-2 text-[11px] text-[#002f34]">
+                                <p className="flex items-center gap-2"><i className="fa-solid fa-money-bill-wave w-4"></i> <b>${item.price}</b></p>
+                                <p className="flex items-center gap-2"><i className="fa-solid fa-location-dot w-4 text-gray-400"></i> ${item.location}</p>
+                                <p className="flex items-center gap-2"><i className="fa-solid fa-briefcase w-4 text-gray-400"></i> ${item.type}</p>
+                                <p className="flex items-center gap-2"><i className="fa-solid fa-clock w-4 text-gray-400"></i> ${item.schedule}</p>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-6 pt-4 border-t border-gray-100">${item.date}</p>
+                    </div>
+                `;
+            }
+
+            return html`
+                <div className="bg-white rounded shadow-sm overflow-hidden flex flex-col border border-transparent hover:shadow-md transition cursor-pointer group">
+                    <div className="relative h-40 overflow-hidden bg-gray-100">
+                        <img src=${item.img} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                    </div>
+                    <div className="p-3 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-sm text-[#002f34] leading-tight mb-2 line-clamp-2">${item.title}</h3>
+                            <p className="text-[10px] text-gray-400 mb-2">${item.location} - ${item.date}</p>
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                            <span className="font-bold text-sm text-[#002f34]">${item.price}</span>
+                            <i className="fa-regular fa-heart text-lg text-[#002f34] hover:text-red-500"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
 
         const App = () => {
             const [selected, setSelected] = useState(CATEGORIES[0]);
@@ -138,6 +204,17 @@
                             </div>
                         </div>
                     </main>
+<section className="mt-16">
+            <h2 className="text-2xl font-bold text-center text-[#002f34] mb-8">VIP-объявления</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                ${PRODUCTS.map(item => html`<${ProductCard} key=${item.id} item=${item} />`)}
+            </div>
+            <div className="flex justify-center mt-12">
+                <button className="border-2 border-[#002f34] text-[#002f34] px-8 py-3 font-bold hover:bg-[#002f34] hover:text-white transition rounded">
+                    Посмотреть все
+                </button>
+            </div>
+        </section>
 
                     <footer className="py-10 text-center text-gray-400 text-xs border-t border-gray-200 mt-12">
                         <p>&copy; 2026 OLX Clone. Теперь с фотографиями.</p>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.models import Category, Product
+from apps.models import Category, Announcement
 
 
 # Register your models here.
@@ -12,6 +12,6 @@ class CategoryModelAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(Product)
-class ProductModelAdmin(admin.ModelAdmin):
+@admin.register(Announcement)
+class AnnouncementModelAdmin(admin.ModelAdmin):
     pass

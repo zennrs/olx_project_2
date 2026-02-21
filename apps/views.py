@@ -2,7 +2,9 @@ from unicodedata import category
 
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
-from apps.models import Product, Category
+
+from apps.filters import AnnouncementFilterSet
+from apps.models import Announcement, Category
 
 
 from django.views.generic import ListView
@@ -16,23 +18,32 @@ class MainView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Product.objects.all()[:10]
+        context['announcements'] = Announcement.objects.filter(product_type="vip")
         return context
 
 
-class ProductListView(ListView):
-    template_name = 'apps/product-list.html'
-    context_object_name = 'products'
+class AnnouncementListView(ListView):
+    template_name = 'apps/announcement-list.html'
+    context_object_name = 'announcements'
 
     def get_queryset(self):
         slug = self.kwargs.get("slug")
         category = get_object_or_404(Category, slug=slug)
-        return Product.objects.filter(category=category)
+        queryset = Announcement.objects.filter(category=category)
+        self.filterset = AnnouncementFilterSet(self.request.GET, queryset=queryset)
+        return self.filterset.qs
 
-class CategoryLIstView(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Добавляем категории верхнего уровня отдельно
+        context['filter'] = self.filterset
+        context['top_categories'] = Category.objects.filter(parent=None)
+        return context
+
+
+
+
+
+class TestView(ListView):
+    template_name = 'apps/login.html'
     queryset = Category.objects.all()
-    # template_name = 'apps/main.html'
-    context_object_name = 'category'
-
-
-

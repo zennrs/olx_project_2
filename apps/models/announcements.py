@@ -1,6 +1,6 @@
 from django.core.validators import FileExtensionValidator
 from django.db.models import ImageField, CharField, CASCADE, ManyToManyField, \
-    ForeignKey, JSONField
+    ForeignKey, JSONField, TextChoices
 from django.db.models.fields import PositiveIntegerField, PositiveSmallIntegerField, TextField
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
@@ -25,13 +25,19 @@ class Category(SlugBaseModel, ImageBaseModel, MPTTModel):
         order_insertion_by = ['name']
 
 
-class Product(SlugBaseModel, CreatedBaseModel):
+class Announcement(SlugBaseModel, CreatedBaseModel):
+    class AnnouncementType(TextChoices):
+        SIMPLE = "simple", "SIMPLE"
+        VIP = "vip", "VIP"
+
+
     name = CharField(max_length=255)
     price = PositiveIntegerField()
     discount = PositiveSmallIntegerField(db_default=0)
     specification = JSONField(default=dict, blank=True)
     description = TextField(blank=True)
     category = ForeignKey('apps.Category', CASCADE, related_name='products')
+    product_type = CharField(max_length=10, choices=AnnouncementType.choices, default=AnnouncementType.SIMPLE)
 
     @property
     def first_image(self):
@@ -43,4 +49,4 @@ class Product(SlugBaseModel, CreatedBaseModel):
 
 
 class ProductImage(ImageBaseModel):
-    product = ForeignKey('apps.Product', CASCADE, related_name='images')
+    product = ForeignKey('apps.Announcement', CASCADE, related_name='images')
