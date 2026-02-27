@@ -42,7 +42,7 @@
       #tab-register:checked ~ .form-container .register-form { display: block; }
       #tab-login:checked ~ .form-container .login-form { display: block; }
       #tab-login:checked ~ .form-container .register-form { display: none; }
-      
+
       .tab-label {
         cursor: pointer;
         padding-bottom: 12px;
@@ -69,23 +69,26 @@
 </head>
   <body class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white w-full max-w-[450px] p-8 rounded-sm shadow-sm border border-gray-100">
-      
+
       <!-- Social Logins -->
       <div class="space-y-4 mb-6">
         <button class="olx-btn-social w-full flex items-center justify-center gap-3 py-3 rounded-md font-bold text-[#002f34]">
           <i class="fab fa-facebook text-[#1877f2] text-xl"></i>
           <span>Продолжить через Facebook</span>
         </button>
-        
+
         <button class="olx-btn-social w-full flex items-center justify-center gap-3 py-3 rounded-md font-bold text-[#002f34]">
           <i class="fab fa-apple text-black text-xl"></i>
           <span>Продолжить через Apple</span>
         </button>
-        
-        <button class="olx-btn-social w-full flex items-center justify-center gap-3 py-3 rounded-md font-bold text-[#002f34]">
-          <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5 h-5" alt="Google">
-          <span>Продолжить через Google</span>
-        </button>
+
+        <a href="{% url 'google_login_page' %}"
+   class="w-full flex items-center justify-center gap-3 py-3 px-4 mb-3 border-2 border-[#002f34] rounded-md font-bold text-[#002f34] hover:bg-gray-50 transition-colors duration-200">
+    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png"
+         class="w-5 h-5 object-contain"
+         alt="Google">
+    <span>Продолжить через Google</span>
+</a>
       </div>
 
       <!-- OR Separator -->
@@ -99,7 +102,7 @@
       <div class="flex mb-8">
         <input type="radio" name="tabs" id="tab-login" class="hidden" checked>
         <label for="tab-login" class="tab-label">Войти</label>
-        
+
         <input type="radio" name="tabs" id="tab-register" class="hidden">
         <label for="tab-register" class="tab-label">Зарегистрироваться</label>
       </div>
@@ -107,7 +110,8 @@
       <!-- Form Container -->
       <div class="form-container">
         <!-- Login Form -->
-        <form class="login-form space-y-6">
+        <form class="login-form space-y-6" action="{% url 'login_page' %}" method="POST">
+            {% csrf_token %}
           <div>
             <label class="block text-[#002f34] text-sm font-medium mb-2">Электронная почта или телефон</label>
             <input type="text" class="olx-input w-full p-4 rounded-md" placeholder="">
@@ -133,10 +137,6 @@
         </form>
       </div>
 
-      <!-- Footer Disclaimer -->
-      <div class="mt-8 text-center text-[12px] leading-relaxed text-[#406367]">
-        При входе вы соглашаетесь с нашими <a href="#" class="font-bold underline">Условия использования</a>.
-      </div>
 
     </div>
   </body>

@@ -1,9 +1,14 @@
 import os
 from pathlib import Path
 
+from django.urls import reverse_lazy
+from dotenv import load_dotenv
+
+load_dotenv('.env')
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-0$$qa(%gjdlphh6wuo^sy_7+=!2#b=-oxh*^%^o1k2-_*359bp'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
@@ -21,6 +26,7 @@ INSTALLED_APPS = [
 
     'mptt',
     'django_filters',
+    "django_json_widget",
 ]
 
 MIDDLEWARE = [
@@ -35,11 +41,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'root.urls'
 
+AUTH_USER_MODEL = 'apps.User'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,8 +63,12 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv('POSTGRES_NAME'),
+        "USER": os.getenv('POSTGRES_USER'),
+        "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
+        "HOST": os.getenv('POSTGRES_HOST'),
+        "PORT": os.getenv('POSTGRES_PORT')
     }
 }
 
@@ -77,6 +88,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')
+
+LOGIN_URL = reverse_lazy('login_page')
+LOGIN_REDIRECT_URL = reverse_lazy('profile_page')
 
 LANGUAGE_CODE = 'en-us'
 

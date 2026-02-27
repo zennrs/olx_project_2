@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Создать объявление</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f2f4f5;
+      --card-border: #e6eaec;
+      --text: #0b1f22;
+      --muted: #62757a;
+
+      --danger: #e00000;
+      --danger-bg: #ffe5e5;
+
+      --ok: #0a7a6a;
+      --field: #6f8789;
+
+      --olx-dark: #002f34;
+
+      --tile: #f2f4f5;
+      --tile-add: #fbf6e6;
+    }
+
+    .label{
+      font-size: 14px;
+      font-weight: 500;
+      color: #1b2b2d;
+      margin-bottom: 8px;
+    }
+
+    .input{
+      width: 100%;
+      height: 56px;
+      border-radius: 4px;
+      padding: 0 16px;
+      outline: none;
+      border: 1px solid var(--field);
+      background: #fff;
+      font-size: 16px;
+    }
+
+    .input::placeholder{ color: #8a9a9e; }
+
+    .input-danger{
+      border-color: var(--danger) !important;
+    }
+
+    .select-danger{
+      background: var(--danger-bg);
+      border-color: var(--danger) !important;
+    }
+
+    .help-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .danger-text{ color: var(--danger); }
+    .muted-text{ color: var(--muted); }
+
+    .textarea{
+      width: 100%;
+      min-height: 240px;
+      border-radius: 4px;
+      padding: 14px 16px;
+      outline: none;
+      border: 1px solid var(--field);
+      resize: none;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .readonly{
+      background: #e7eeef;
+      color:#66797d;
+      border-color:#cfd8db;
+    }
+
+    /* Photo tiles */
+    .tile{
+      height: 170px;
+      border-radius: 4px;
+      background: var(--tile);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .tile-add{
+      background: var(--tile-add);
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      font-weight:700;
+    }
+    .tile-add a{
+      color:#0b1f22;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      font-size: 18px;
+    }
+
+    /* Toggle */
+    .switch{
+      width: 62px;
+      height: 32px;
+      background: #cfd8db;
+      border-radius: 999px;
+      position: relative;
+    }
+    .switch::after{
+      content:"";
+      width: 22px;
+      height: 22px;
+      background:#0b0f10;
+      border-radius: 999px;
+      position:absolute;
+      left: 7px;
+      top: 5px;
+    }
+
+    .btn{
+      background: var(--olx-dark);
+      color: #fff;
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .preview-link{
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      color:#0b1f22;
+    }
+    :root{
+      --bg: #f2f4f5;
+      --card-border: #e6eaec;
+      --text: #0b1f22;
+      --muted: #62757a;
+
+      --field-border: #cfd8db;  /* как на скрине */
+      --select-bg: #f2f4f5;     /* серый фон select */
+      --olx-dark: #002f34;
+    }
+
+    body{
+      font-family: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .wrap{ max-width: 1180px; margin: 18px auto 40px; padding: 0 18px; }
+    .card{ background:#fff; border:1px solid var(--card-border); border-radius:6px; }
+
+    .label{
+      font-size: 14px;
+      font-weight: 500;
+      color: #1b2b2d;
+      margin-bottom: 8px;
+    }
+
+
+    .input::placeholder{ color:#8a9a9e; }
+
+    .hint-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .select-box{
+      height: 56px;
+      border-radius: 4px;
+      background: var(--select-bg);
+      border: 1px solid transparent;
+      padding: 0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      width: 420px;
+      color:#0b1f22;
+      font-size:16px;
+    }
+
+    .btn{
+      background: var(--olx-dark);
+      color: #fff;
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .preview-link{
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      color:#0b1f22;
+    }
+
+    /* Остальное можно оставить как было (фото/карточки и т.д.) */
+    .tile{ height:170px; border-radius:4px; background:#f2f4f5; display:flex; align-items:center; justify-content:center; }
+    .tile-add{ background:#fbf6e6; flex-direction:column; font-weight:700; }
+    .tile-add a{ color:#0b1f22; text-decoration:underline; text-underline-offset:6px; font-size:18px; }
+    .textarea{ width:100%; min-height:240px; border-radius:4px; padding:14px 16px; outline:none; border:1px solid var(--field-border); resize:none; font-size:16px; line-height:1.35; }
+    .switch{ width:62px; height:32px; background:#cfd8db; border-radius:999px; position:relative; }
+    .switch::after{ content:""; width:22px; height:22px; background:#0b0f10; border-radius:999px; position:absolute; left:7px; top:5px; }
+    .readonly{ background:#e7eeef; color:#66797d; border-color:#cfd8db; }
+  </style>
+
+</head>
+
+<body>
+<header class="bg-[#002f34] text-white">
+                <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+                    <div class="flex items-center gap-8">
+                        <div class="text-3xl font-black tracking-tighter cursor-pointer"><a href="{% url 'main_page' %}">OLX</a></div>
+                    </div>
+
+                    <div class="flex items-center gap-4 md:gap-6">
+                        <div class="flex items-center text-sm font-bold border-r border-gray-600 pr-4 h-5">
+                            <span class="cursor-pointer hover:underline">O'Z</span>
+                            <span class="mx-2 text-gray-500">|</span>
+                            <span class="cursor-pointer text-gray-400 hover:text-white">Рус</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 cursor-pointer hover:text-cyan-400">
+                            <i class="fa-regular fa-comment text-xl"></i>
+                            <span class="hidden lg:inline font-semibold text-sm">Чат</span>
+                        </div>
+
+                        <div class="flex items-center cursor-pointer hover:text-cyan-400">
+                            <i class="fa-regular fa-heart text-xl"></i>
+                        </div>
+
+                        <div class="flex items-center cursor-pointer hover:text-cyan-400">
+                            <i class="fa-regular fa-bell text-xl"></i>
+                        </div>
+
+                        <div class="flex items-center">
+    <a {% if user.is_authenticated %} href="{% url 'login_page' %}" {% else %} href="{% url 'profile_page' %}" {% endif %}
+       class="flex items-center gap-2 font-semibold text-sm transition-colors hover:text-cyan-400">
+        <i class="fa-regular fa-user text-xl"></i>
+        <span class="hidden md:inline">Профиль</span>
+    </a>
+
+</div>
+
+                        <button class="bg-white text-[#002f34] px-4 py-2 rounded font-bold hover:bg-gray-100 transition text-sm">
+                            Подать объявление
+                        </button>
+
+
+
+            {% if user.is_authenticated %}<a  href="{% url 'logout_page' %}"
+       class="flex items-center gap-2 font-semibold text-sm transition-colors hover:text-cyan-400 2">
+        <i></i>
+        <span class="hidden md:inline">Logout</span>
+    </a>
+    {% else %}{% endif %}
+    </div>
+    </div>
+    </header>
+  <div class="wrap">
+
+    <h1 class="text-[38px] font-bold mb-6">Создать объявление</h1>
+
+    <!-- CARD: DETAILS -->
+    <section class="card p-8 mb-5">
+      <h2 class="text-[22px] font-bold mb-5">Опишите в подробностях</h2>
+
+      <!-- Title (без красного) -->
+      <div class="mb-6">
+        <div class="label">Укажите название *</div>
+
+        <input id="titleInput" class="input" placeholder="Например, iPhone 11 с гарантией" />
+
+        <div class="hint-row">
+          <div class="flex items-center gap-2">
+            <!-- info icon -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="#0b1f22" stroke-width="1.8"/>
+              <path d="M12 10.8v5.2" stroke="#0b1f22" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 7.6h.01" stroke="#0b1f22" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span>Введите не менее 16 символов</span>
+          </div>
+
+          <div id="titleCount">0/70</div>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <!-- Category -->
+<div class="mb-2">
+  <div class="label">Категория*</div>
+
+  <!-- это кнопка-имитация select -->
+  <button type="button" id="openCategoryModal"
+          class="select-box"
+          aria-haspopup="dialog"
+          aria-controls="categoryModal">
+    <span id="categorySelectedText">Выберите категорию</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke="#0b1f22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- СЮДА запишем выбранную категорию (slug или id) -->
+  <input type="hidden" name="category" id="categorySelectedValue">
+</div>
+    </section>
+
+        </div>
+
+
+    <!-- CARD: PHOTOS -->
+    <section class="card p-8 mb-5">
+      <h2 class="text-[22px] font-bold mb-2">Фото</h2>
+      <p class="text-[14px] text-[var(--muted)] mb-4">
+        Первое фото будет на обложке объявления. Перетащите, чтобы изменить порядок.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4">
+        <!-- add -->
+        <div class="tile tile-add">
+          <a href="javascript:void(0)">Добавить фото</a>
+        </div>
+
+        <!-- tiles -->
+        <div class="tile">
+          <!-- camera -->
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="tile">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 7.2 10.2 5.7c.3-.4.8-.7 1.3-.7h1c.5 0 1 .3 1.3.7L16 7.2" stroke="#3c5b60" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 7.2h11.2c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8H6.5c-1 0-1.8-.8-1.8-1.8V9c0-1 .8-1.8 1.8-1.8Z" stroke="#3c5b60" stroke-width="1.6"/>
+            <path d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="#3c5b60" stroke-width="1.6"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD: DESCRIPTION -->
+    <section class="card p-8 mb-5">
+      <div class="label">Описание *</div>
+
+      <div class="relative">
+        <textarea id="descInput" class="textarea" placeholder="Подумайте, какие подробности вы хотели бы узнать из объявления. И добавьте их в описание"></textarea>
+
+        <!-- check -->
+        <div class="absolute right-4 top-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 7 10 17l-4-4" stroke="#0A7A6A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="help-row">
+        <div class="muted-text">Введите не менее 40 символов</div>
+        <div id="descCount" class="muted-text">42/9000</div>
+      </div>
+    </section>
+
+    <!-- CARD: AUTORENEW -->
+    <section class="card p-8 mb-5">
+      <div class="flex items-start justify-between">
+        <div class="flex items-start gap-3">
+          <!-- small dot icon (как на скрине слева) -->
+          <div class="mt-[3px]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 6a6 6 0 1 1-5.3 3.2" stroke="#0b1f22" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M6.7 6.6H10" stroke="#0b1f22" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <div>
+            <div class="font-bold text-[18px] leading-tight">Автопродление</div>
+            <div class="text-[14px] leading-snug mt-1">
+              Отображение объявления не будет<br/>
+              автоматически продлеваться по истечении<br/>
+              срока его действия.
+            </div>
+          </div>
+        </div>
+
+        <div class="switch" aria-label="Автопродление (выкл)"></div>
+      </div>
+    </section>
+
+    <!-- CARD: LOCATION -->
+    <section class="card p-8 mb-5">
+      <div class="label">Местоположение*</div>
+
+      <div class="relative w-[360px]">
+        <input class="input"  placeholder="Название города или индекс" />
+        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 7 10 17l-4-4" stroke="#0A7A6A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD: CONTACT -->
+    <section class="card p-8 mb-5">
+      <h2 class="text-[22px] font-bold mb-5">Контактная информация</h2>
+
+      <div class="mb-5">
+        <div class="label">Контактное лицо *</div>
+        <div class="relative w-[420px]">
+          <input class="input pr-20" value="" />
+          <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-3">
+            <!-- chevron down -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="#0b0f10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <!-- check -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 7 10 17l-4-4" stroke="#0A7A6A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <div class="label">Email-адрес</div>
+        <input class="input readonly w-[420px]" value="{{ user.email }}" readonly />
+      </div>
+
+      <div>
+        <div class="label">Номер телефона</div>
+        <input class="input w-[420px]" value="" />
+      </div>
+    </section>
+
+    <!-- CARD: ACTIONS -->
+    <section class="card p-8">
+      <div class="flex items-center justify-end gap-14">
+        <a class="preview-link" href="javascript:void(0)">Предпросмотр</a>
+        <button class="btn">Опубликовать</button>
+      </div>
+    </section>
+
+  </div>
+
+<!-- MODAL: Category picker -->
+<div id="categoryModal" class="fixed inset-0 hidden z-[999]">
+  <!-- backdrop -->
+  <div id="categoryBackdrop" class="absolute inset-0 bg-black/50"></div>
+
+  <!-- modal window -->
+  <div class="relative mx-auto mt-24 w-[92%] max-w-5xl bg-white rounded-lg shadow-xl">
+    <div class="flex items-center justify-between px-6 py-5 border-b">
+      <h3 class="text-2xl font-bold text-[#002f34]">Выберите категорию</h3>
+      <button type="button" id="closeCategoryModal" class="text-2xl leading-none px-2">×</button>
+    </div>
+
+    <!-- 3 columns -->
+    <div class="grid grid-cols-3">
+      <!-- col 1 -->
+      <div class="border-r">
+        <div id="col1" class="max-h-[420px] overflow-auto"></div>
+      </div>
+
+      <!-- col 2 -->
+      <div class="border-r">
+        <div id="col2" class="max-h-[420px] overflow-auto"></div>
+      </div>
+
+      <!-- col 3 -->
+      <div>
+        <div id="col3" class="max-h-[420px] overflow-auto"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+    const titleInput = document.getElementById("titleInput");
+const titleCount = document.getElementById("titleCount");
+const descInput = document.getElementById("descInput");
+const descCount = document.getElementById("descCount");
+
+function updateTitle(){
+  const n = titleInput.value.length;
+  titleCount.textContent = `${n}/70`;
+}
+
+function updateDesc(){
+  const n = descInput.value.length;
+  descCount.textContent = `${n}/9000`;
+}
+
+titleInput.addEventListener("input", updateTitle);
+descInput.addEventListener("input", updateDesc);
+
+updateTitle();
+updateDesc();
+  </script>
+<script>
+  // -------------- DATA from Django (3 levels) --------------
+  const CATEGORY_TREE = [
+    {% for c1 in top_categories %}
+      {
+        name: "{{ c1.name|escapejs }}",
+        slug: "{{ c1.slug|escapejs }}",
+        children: [
+          {% for c2 in c1.children.all %}
+            {
+              name: "{{ c2.name|escapejs }}",
+              slug: "{{ c2.slug|escapejs }}",
+              children: [
+                {% for c3 in c2.children.all %}
+                  { name: "{{ c3.name|escapejs }}", slug: "{{ c3.slug|escapejs }}" },
+                {% endfor %}
+              ]
+            },
+          {% endfor %}
+        ]
+      },
+    {% endfor %}
+  ];
+
+  // -------------- DOM --------------
+  const modal = document.getElementById("categoryModal");
+  const openBtn = document.getElementById("openCategoryModal");
+  const closeBtn = document.getElementById("closeCategoryModal");
+  const backdrop = document.getElementById("categoryBackdrop");
+
+  const col1 = document.getElementById("col1");
+  const col2 = document.getElementById("col2");
+  const col3 = document.getElementById("col3");
+
+  const selectedText = document.getElementById("categorySelectedText");
+  const selectedValue = document.getElementById("categorySelectedValue");
+
+  // active selections
+  let active1 = null;
+  let active2 = null;
+
+  // -------------- helpers --------------
+  function openModal(){
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(){
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  function itemRow({label, isActive=false, hasNext=false}) {
+    return `
+      <div class="px-5 py-3 flex items-center justify-between cursor-pointer
+                  ${isActive ? "bg-blue-100" : "hover:bg-gray-100"}">
+        <span class="text-[15px] text-[#002f34]">${label}</span>
+        ${hasNext ? `<span class="text-gray-400 text-xl">›</span>` : ``}
+      </div>
+    `;
+  }
+
+  function renderCol1(){
+    col1.innerHTML = "";
+    CATEGORY_TREE.forEach((c, idx) => {
+      const row = document.createElement("div");
+      row.innerHTML = itemRow({
+        label: c.name,
+        isActive: active1 === idx,
+        hasNext: (c.children && c.children.length)
+      });
+
+      row.onclick = () => {
+        active1 = idx;
+        active2 = null;
+        renderCol1();
+        renderCol2();
+        renderCol3(); // очистим
+      };
+      col1.appendChild(row);
+    });
+  }
+
+  function renderCol2(){
+    col2.innerHTML = "";
+    col3.innerHTML = "";
+
+    if (active1 === null) return;
+
+    const parent = CATEGORY_TREE[active1];
+    const children = parent.children || [];
+
+    // "Все в <категория>"
+    const allRow = document.createElement("div");
+    allRow.onclick = () => selectCategory(parent.name, parent.slug);
+    col2.appendChild(allRow);
+
+    children.forEach((c, idx) => {
+      const row = document.createElement("div");
+      row.innerHTML = itemRow({
+        label: c.name,
+        isActive: active2 === idx,
+        hasNext: (c.children && c.children.length)
+      });
+
+      // hover как на OLX
+      row.onmouseenter = () => {
+        active2 = idx;
+        renderCol2();     // перерисуем выделение
+        renderCol3();     // покажем 3 колонку
+      };
+
+      // клик: если нет детей — выбираем
+      row.onclick = () => {
+        active2 = idx;
+        if (!c.children || c.children.length === 0) {
+          selectCategory(c.name, c.slug);
+        } else {
+          renderCol3();
+        }
+      };
+
+      col2.appendChild(row);
+    });
+  }
+
+  function renderCol3(){
+    col3.innerHTML = "";
+    if (active1 === null || active2 === null) return;
+
+    const c2 = (CATEGORY_TREE[active1].children || [])[active2];
+    if (!c2) return;
+
+    const children3 = c2.children || [];
+
+    // "Все в <подкатегория>"
+    const allRow = document.createElement("div");
+    allRow.onclick = () => selectCategory(c2.name, c2.slug);
+    col3.appendChild(allRow);
+
+    // список
+    children3.forEach(c3 => {
+      const row = document.createElement("div");
+      row.innerHTML = itemRow({ label: c3.name, hasNext:false });
+      row.onclick = () => selectCategory(c3.name, c3.slug);
+      col3.appendChild(row);
+    });
+  }
+
+  function selectCategory(name, slug){
+    selectedText.textContent = name;
+    selectedValue.value = slug;     // отправится в form
+    closeModal();
+  }
+
+  // -------------- events --------------
+  openBtn.addEventListener("click", () => {
+    openModal();
+
+    // дефолт: открыть первый уровень
+    if (active1 === null && CATEGORY_TREE.length) active1 = 0;
+    renderCol1();
+    renderCol2();
+    renderCol3();
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+  });
+</script>
+</body>
+</html>
