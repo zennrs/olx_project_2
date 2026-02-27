@@ -1,0 +1,10 @@
+[
+{
+    "model": "apps.manufacturecategory",
+    "pk": 1,
+    "fields": {
+        "manufacturer": "chevrolet",
+        "category": "yengil-avtomashinalar"
+    }
+}
+]

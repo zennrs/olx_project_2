@@ -3,14 +3,14 @@
     "model": "apps.category",
     "pk": 1,
     "fields": {
-        "slug": "elektronika",
-        "image": "category/2026/02/17/python-1.jpg",
-        "name": "Elektronika",
-        "banner": "",
+        "slug": "transport",
+        "image": "category/2026/02/25/transport-3-1x.png",
+        "name": "Transport",
         "parent": null,
+        "attribute": null,
         "lft": 1,
-        "rght": 4,
-        "tree_id": 1,
+        "rght": 6,
+        "tree_id": 3,
         "level": 0
     }
 },
@@ -18,29 +18,54 @@
     "model": "apps.category",
     "pk": 2,
     "fields": {
-        "slug": "mashina",
-        "image": "category/2026/02/16/R7tezFny36n2zajZiKpaPqTZ8LcnA4Kw04jNeejg2RaKdOa15uKTTlcXnUW2.jpg",
-        "name": "Mashina",
-        "banner": "",
-        "parent": null,
-        "lft": 1,
-        "rght": 4,
-        "tree_id": 1,
-        "level": 0
+        "slug": "yengil-avtomashinalar",
+        "image": "",
+        "name": "Yengil avtomashinalar",
+        "parent": 1,
+        "attribute": [
+            {
+                "name": "terms_of_sale",
+                "type": "multiselect",
+                "label": "sotish sharlari",
+                "options": [
+                    "Oddiy sotish",
+                    "Trade-in",
+                    "Kredit",
+                    "Arenda",
+                    "Lizing",
+                    "Almashtirish mumkin",
+                    "Bo'lib to'lash"
+                ],
+                "required": false,
+                "placeholder": null
+            },
+            {
+                "name": "motor_year",
+                "type": "int",
+                "label": "Ishlab chiqarish yili",
+                "options": null,
+                "required": false,
+                "placeholder": null
+            }
+        ],
+        "lft": 4,
+        "rght": 5,
+        "tree_id": 3,
+        "level": 1
     }
 },
 {
     "model": "apps.category",
     "pk": 3,
     "fields": {
-        "slug": "audi",
-        "image": "category/2026/02/16/rNX5M2vGVyPeVO1t4pFMi4iEfsCmoWxWzyI0fsQGa5EscC67Yg3BgtFSCx4M.jpg",
-        "name": "Audi",
-        "banner": "",
-        "parent": 2,
+        "slug": "kochmas-mulk",
+        "image": "category/2026/02/25/nedvizhimost-1-1x.png",
+        "name": "Ko'chmas mulk",
+        "parent": null,
+        "attribute": null,
         "lft": 1,
-        "rght": 4,
-        "tree_id": 1,
+        "rght": 6,
+        "tree_id": 2,
         "level": 0
     }
 },
@@ -48,15 +73,45 @@
     "model": "apps.category",
     "pk": 4,
     "fields": {
-        "slug": "smarfon",
+        "slug": "kvartiralar",
         "image": "",
-        "name": "smarfon",
-        "banner": "",
-        "parent": 1,
+        "name": "Kvartiralar",
+        "parent": 3,
+        "attribute": null,
         "lft": 2,
-        "rght": 3,
-        "tree_id": 1,
+        "rght": 5,
+        "tree_id": 2,
         "level": 1
+    }
+},
+{
+    "model": "apps.category",
+    "pk": 5,
+    "fields": {
+        "slug": "elektr-jihozlari",
+        "image": "category/2026/02/25/elektronika-37-1x.png",
+        "name": "Elektr jihozlari",
+        "parent": null,
+        "attribute": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 1,
+        "level": 0
+    }
+},
+{
+    "model": "apps.category",
+    "pk": 6,
+    "fields": {
+        "slug": "sotish",
+        "image": "",
+        "name": "Sotish",
+        "parent": 4,
+        "attribute": null,
+        "lft": 3,
+        "rght": 4,
+        "tree_id": 2,
+        "level": 2
     }
 }
 ]
