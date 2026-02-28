@@ -90,9 +90,21 @@
           <i class="fa-solid fa-location-dot text-gray-400"></i>
           <input type="text" placeholder="Вся страна" class="w-full outline-none text-sm" />
         </div>
-        <button class="bg-[#002f34] text-white px-10 py-4 font-bold hover:bg-[#004d55] transition text-sm">
-          Поиск
-        </button>
+        <form method="get" action="{% url 'search_results' %}" class="flex">
+            <input
+                type="text"
+                name="q"
+                placeholder="Что ищете?"
+                class="border p-2 rounded-l"
+                value="{{ query|default:'' }}"
+            />
+            <button
+                type="submit"
+                class="bg-[#002f34] text-white px-10 py-4 font-bold hover:bg-[#004d55] transition text-sm rounded-r"
+            >
+                Поиск
+            </button>
+        </form>
       </div>
     </div>
   </div>

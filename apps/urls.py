@@ -1,6 +1,6 @@
 from django.urls import path
 from apps.views import AnnouncementListView, MainView, CustomLoginView, GoogleLoginView, GoogleCallbackView, \
-    ProfileUpdateView, CustomLogoutView, AnnouncementCreateView
+    ProfileUpdateView, CustomLogoutView, AnnouncementCreateView, SearchHistory, SearchResultsView
 
 urlpatterns = [
     path('', MainView.as_view(), name='main_page'),
@@ -18,7 +18,6 @@ urlpatterns = [
     # path('auth/logout', CustomLogoutView.as_view(), name='logout_page'),
 
     path('auth/profile', ProfileUpdateView.as_view(), name='profile_page'),
-
-
+    path('search_result',SearchResultsView.as_view(), name='search_results'),
 
 ]

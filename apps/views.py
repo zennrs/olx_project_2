@@ -8,10 +8,13 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView
 from apps.filters import AnnouncementFilterSet
-from apps.models import Announcement, Category, User
+from apps.models import Announcement, Category, User, AnnouncementImage
 from django.views.generic import ListView
-from apps.models.announcements import ProductImage
+
+from apps.models.searchhistory import SearchHistory
 from root import settings
+from django.views.generic import ListView
+from django.db.models import Q
 
 
 class MainView(ListView):
@@ -144,6 +147,30 @@ class AnnouncementCreateView(LoginRequiredMixin, CreateView):
         response = super().form_valid(form)
 
         for i, img in enumerate(images):
-            ProductImage.objects.create(product=self.object, image=img, order=i)
+            AnnouncementImage.objects.create(product=self.object, image=img, order=i)
 
         return response
+
+
+
+class SearchResultsView(ListView):
+    model = Announcement
+    template_name = 'apps/search.html'
+    context_object_name = 'results'  # templatesdagi context
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+
+            SearchHistory.objects.create(query=query)
+            return Announcement.objects.filter(
+                Q(name__icontains=query) |
+                Q(category__name__icontains=query)
+            ).distinct()
+        return Announcement.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q')
+        context['recent_searches'] = SearchHistory.objects.order_by('-created_at')
+        return context
