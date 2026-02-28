@@ -56,10 +56,8 @@ class Announcement(SlugBaseModel, CreatedBaseModel):
     owner = ForeignKey(AUTH_USER_MODEL, related_name='announcements',on_delete=CASCADE)
     status = CharField(max_length=10, choices=Status.choices, default=Status.Unactive)
     view_count = PositiveIntegerField(default=0)
-
     email = EmailField(blank=True, null=True)
     phone = CharField(max_length=15, blank=True, null=True)
-
     favorites = ManyToManyField(
         AUTH_USER_MODEL,
         related_name="favorite_products",
