@@ -40,7 +40,6 @@ class AnnouncementListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Добавляем категории верхнего уровня отдельно
         context['filter'] = self.filterset
         context['top_categories'] = Category.objects.filter(parent=None)
         return context
@@ -132,19 +131,17 @@ class AnnouncementCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Добавляем категории верхнего уровня отдельно
         context['top_categories'] = Category.objects.filter(parent=None)
         return context
 
     def form_valid(self, form):
         images = self.request.FILES.getlist("images")
 
-        # лимит 8
         if len(images) > self.MAX_IMAGES:
             form.add_error(None, f"Можно загрузить максимум {self.MAX_IMAGES} фото.")
             return self.form_invalid(form)
 
-        response = super().form_valid(form)  # сохраняет Announcement, self.object уже есть
+        response = super().form_valid(form)
 
         for i, img in enumerate(images):
             ProductImage.objects.create(product=self.object, image=img, order=i)
