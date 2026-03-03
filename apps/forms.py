@@ -12,3 +12,4 @@ class YourForm(forms.ModelForm):
         widgets = {
             'jsonfield': JSONEditorWidget
         }
+

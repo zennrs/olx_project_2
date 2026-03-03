@@ -19,6 +19,7 @@ class Category(SlugBaseModel, ImageBaseModel, MPTTModel):
         order_insertion_by = ['name']
 
 
+
 class Manufacturer(CreatedBaseModel, SlugBaseModel, ImageBaseModel):
     name = CharField(max_length=255)
     attribute = JSONField(blank=True, null=True)

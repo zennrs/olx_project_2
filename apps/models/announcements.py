@@ -1,8 +1,10 @@
 from django.db.models import CharField, CASCADE, ManyToManyField, ForeignKey, JSONField, TextChoices, Model
 from django.db.models.fields import PositiveIntegerField, PositiveSmallIntegerField, TextField, EmailField
+from django.forms import ImageField
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 from apps.models.base import ImageBaseModel, SlugBaseModel, CreatedBaseModel
+from apps.models.utils import upload_to_image
 from root.settings import AUTH_USER_MODEL
 
 
@@ -58,6 +60,7 @@ class Announcement(SlugBaseModel, CreatedBaseModel):
     view_count = PositiveIntegerField(default=0)
     email = EmailField(blank=True, null=True)
     phone = CharField(max_length=15, blank=True, null=True)
+
     favorites = ManyToManyField(
         AUTH_USER_MODEL,
         related_name="favorite_products",
@@ -77,3 +80,7 @@ class Announcement(SlugBaseModel, CreatedBaseModel):
 
 class AnnouncementImage(ImageBaseModel):
     product = ForeignKey('apps.Announcement', CASCADE, related_name='images')
+    image = ImageField(upload_to='media/announcementimage/%Y/%m/')
+
+
+
